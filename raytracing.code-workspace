@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+  ],
+  "settings": {
+    "files.associations": {
+      ".env.production": "dotenv",
+      "cstdio": "cpp"
+    },
+    "C_Cpp.formatting": "vcFormat",
+  }
+}
