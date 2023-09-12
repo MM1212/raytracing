@@ -26,6 +26,9 @@ Window::~Window() {
 bool Window::destroy() {
   if (!this->initialized())
     return false;
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
   glfwDestroyWindow(this->window);
   this->window = nullptr;
   glfwTerminate();
@@ -67,7 +70,7 @@ bool Window::init(glm::vec2 size, std::string_view title, bool vSync) {
   }
 
   // Setup Platform/Renderer backends
-  ImGui_ImplGlfw_InitForOpenGL(window, true);
+  ImGui_ImplGlfw_InitForOpenGL(this->window, true);
   ImGui_ImplOpenGL3_Init(nullptr);
 
   return true;
