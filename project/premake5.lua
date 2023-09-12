@@ -18,6 +18,7 @@ project "RayTracing"
   }
 
   includedirs {
+    "include",
     imgui(),
     vendorFiles("glfw/include")(),
     vendorFiles("glm")(),
