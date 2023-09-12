@@ -35,10 +35,10 @@ namespace Engine {
     inline bool isRunning() const { return this->running; }
     inline GLFWwindow* getWindow() const { return this->window; }
     inline glm::vec2 getSize() const { return this->size; }
-    template <typename T>
-    uint32_t addLayer() {
+    template <typename T, typename ...Args>
+    uint32_t addLayer(Args... args) {
       const uint32_t idx = this->layerIdx++;
-      this->layers.emplace_back(std::move(std::make_shared<T>(idx)));
+      this->layers.emplace_back(std::move(std::make_shared<T>(idx, args...)));
       return idx;
     }
     bool removeLayer(uint32_t idx);
