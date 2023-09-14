@@ -1,13 +1,8 @@
-#include <engine.hpp>
+#include <Application.hpp>
 
 int main(void)
 {
-  Engine::Window* window = Instance<Engine::Window>::Get();
-
-  window->addLayer<Engine::Layers::DemoLayer>();
-
-  if (!window->init({ 1280, 720 }, "Hello World"))
-    return 1;
-  window->run();
+  RayTracing::Application* app = Instance<RayTracing::Application>::Get();
+  app->setup({ 1280, 720 }, "RayTracing");
   return 0;
 }

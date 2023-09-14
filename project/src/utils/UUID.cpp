@@ -1,0 +1,16 @@
+#include "utils/UUID.hpp"
+
+#include <random>
+
+#include <unordered_map>
+
+
+static std::random_device randomDevice;
+static std::mt19937_64 engine(randomDevice());
+static std::uniform_int_distribution<uint64_t> uniformDistribution;
+
+UUID::UUID()
+  : handle(uniformDistribution(engine)) {}
+
+UUID::UUID(uint64_t uuid)
+  : handle(uuid) {}

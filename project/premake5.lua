@@ -7,9 +7,10 @@ project "RayTracing"
   cppdialect "C++20"
   targetdir "bin/%{cfg.buildcfg}"
   staticruntime "off"
+  stl "libc++"
+  toolset "clang"
 
   files {
-    "include/**.hpp",
     imgui "backends/imgui_impl_glfw.h",
     imgui "backends/imgui_impl_opengl3.h",
     imgui "backends/imgui_impl_glfw.cpp",
@@ -22,6 +23,7 @@ project "RayTracing"
     imgui(),
     vendorFiles("glfw/include")(),
     vendorFiles("glm")(),
+    vendorFiles("entt/src")()
   }
 
   links {

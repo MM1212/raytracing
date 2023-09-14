@@ -1,4 +1,4 @@
-#include "engine.hpp"
+#include "engine/engine.hpp"
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -15,7 +15,7 @@ static void glfw_error_callback(int error, const char* description)
 using Engine::Window;
 
 
-Window::Window(glm::vec2 size, std::string_view title, bool vSync) {
+Window::Window(glm::ivec2 size, std::string_view title, bool vSync) {
   this->init(size, title, vSync);
 }
 
@@ -26,6 +26,9 @@ Window::~Window() {
 bool Window::destroy() {
   if (!this->initialized())
     return false;
+  for (auto& layer : this->layers) {
+    layer->onDetach();
+  }
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
@@ -36,7 +39,7 @@ bool Window::destroy() {
   return true;
 }
 
-bool Window::init(glm::vec2 size, std::string_view title, bool vSync) {
+bool Window::init(glm::ivec2 size, std::string_view title, bool vSync) {
   if (this->initialized())
     return false;
   this->size = size;
@@ -98,12 +101,17 @@ void Window::run() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    glm::ivec2 winSize;
+    glfwGetWindowSize(this->window, &winSize.x, &winSize.y);
+    bool resized = winSize != this->size;
     for (auto layer : this->layers) {
       if (layer->firstUpdate) {
-        layer->onAttach();
+        layer->onAttach(*this);
         layer->firstUpdate = false;
       }
-      layer->onUpdate();
+      if (resized)
+        layer->onResize(winSize);
+      layer->onUpdate(this->deltaTime);
     }
     ImGui::Render();
     glm::ivec2 frameBuffer;
@@ -122,6 +130,10 @@ void Window::run() {
     }
 
     glfwSwapBuffers(this->window);
+    const float time = static_cast<float>(glfwGetTime());
+    this->frameTime = time - this->lastFrameTime;
+    this->deltaTime = glm::min<float>(this->frameTime, 0.0333f);
+    this->lastFrameTime = time;
   }
   this->destroy();
 }
