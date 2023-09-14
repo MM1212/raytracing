@@ -57,7 +57,17 @@
       "stdexcept": "cpp",
       "streambuf": "cpp",
       "cinttypes": "cpp",
-      "typeinfo": "cpp"
+      "typeinfo": "cpp",
+      "bitset": "cpp",
+      "regex": "cpp",
+      "condition_variable": "cpp",
+      "list": "cpp",
+      "map": "cpp",
+      "set": "cpp",
+      "unordered_set": "cpp",
+      "semaphore": "cpp",
+      "shared_mutex": "cpp",
+      "stop_token": "cpp"
     },
     "C_Cpp.formatting": "vcFormat"
   }

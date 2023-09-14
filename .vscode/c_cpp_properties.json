@@ -2,11 +2,17 @@
   "configurations": [
     {
       "name": "Linux",
-      "includePath": ["${workspaceFolder}/**"],
+      "includePath": [
+        "${workspaceFolder}/project/include",
+        "${workspaceFolder}/vendor/imgui",
+        "${workspaceFolder}/vendor/glfw/include",
+        "${workspaceFolder}/vendor/glm",
+        "${workspaceFolder}/vendor/entt/src"
+      ],
       "defines": [],
       "compilerPath": "/usr/bin/clang",
       "cppStandard": "c++20",
-      "intelliSenseMode": "linux-clang-x64",
+      "intelliSenseMode": "linux-clang-x64"
     }
   ],
   "version": 4
