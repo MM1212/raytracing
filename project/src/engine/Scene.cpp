@@ -1,15 +1,11 @@
-#include "engine/Scene.hpp"
 #include <engine/entity/Entity.hpp>
 #include <engine/Renderer.hpp>
+#include "engine/Scene.hpp"
 
 using Engine::Scene;
 
 void Scene::onUpdate(float deltaTime) {
   this->viewportCam.onUpdate(deltaTime);
-}
-
-void Scene::submitToRender() {
-  Instance<Renderer>::Get()->render(this);
 }
 
 void Scene::onResize(glm::uvec2 size) {

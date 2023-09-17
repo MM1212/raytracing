@@ -1,10 +1,11 @@
 #pragma once
 
 #include <entt/entt.hpp>
+#include <glm/glm.hpp>
 
-#include "components/all.hpp"
 
 #include "engine/Scene.hpp"
+#include "components/all.hpp"
 
 namespace Engine {
   class Entity {
@@ -24,14 +25,14 @@ namespace Engine {
     }
     template <typename T>
     const T& getComponent() const {
-      if (!this->hasComponent<T>())
-        throw std::runtime_error("Entity does not have component");
+      // if (!this->hasComponent<T>())
+      //   throw std::runtime_error("Entity does not have component");
       return this->getRegistry().get<T>(this->handle);
     }
     template <typename T>
     T& getComponent() {
-      if (!this->hasComponent<T>())
-        throw std::runtime_error("Entity does not have component");
+      // if (!this->hasComponent<T>())
+      //   throw std::runtime_error("Entity does not have component");
       return this->getRegistry().get<T>(this->handle);
     }
     template <typename ...T>
@@ -47,6 +48,8 @@ namespace Engine {
     /* component shortcuts */
     auto getId() const { return this->getComponent<Components::ID>().id; }
     const std::string_view getName() const { return this->getComponent<Components::Tag>().name; }
+    const glm::vec3& getPosition() const { return this->getComponent<Components::Transform>().position; }
+    glm::vec3& getPosition() { return this->getComponent<Components::Transform>().position; }
 
     operator entt::entity() const { return this->handle; }
     operator const UUID() const { return this->getId(); }
@@ -58,5 +61,8 @@ namespace Engine {
   private:
     entt::entity handle{ entt::null };
     Scene* scene = nullptr;
+
+    friend class EntityView;
   };
+
 }

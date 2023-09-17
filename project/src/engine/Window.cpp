@@ -12,6 +12,11 @@ static void glfw_error_callback(int error, const char* description)
   std::fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
+static void glfw_framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+  auto* win = reinterpret_cast<Engine::Window*>(glfwGetWindowUserPointer(window));
+  win->onResize(width, height);
+}
+
 using Engine::Window;
 
 
@@ -76,6 +81,9 @@ bool Window::init(glm::ivec2 size, std::string_view title, bool vSync) {
   ImGui_ImplGlfw_InitForOpenGL(this->window, true);
   ImGui_ImplOpenGL3_Init(nullptr);
 
+  glfwSetWindowUserPointer(this->window, this);
+  glfwSetFramebufferSizeCallback(this->window, glfw_framebuffer_size_callback);
+
   return true;
 }
 
@@ -87,6 +95,13 @@ bool Window::removeLayer(uint32_t idx) {
     return false;
   this->layers.erase(it);
   return true;
+}
+
+void Window::onResize(int width, int height) {
+  this->size = { width, height };
+  for (auto layer : this->layers) {
+    layer->onResize(this->size);
+  }
 }
 
 void Window::run() {
@@ -101,16 +116,11 @@ void Window::run() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    glm::ivec2 winSize;
-    glfwGetWindowSize(this->window, &winSize.x, &winSize.y);
-    bool resized = winSize != this->size;
     for (auto layer : this->layers) {
       if (layer->firstUpdate) {
         layer->onAttach(*this);
         layer->firstUpdate = false;
       }
-      if (resized)
-        layer->onResize(winSize);
       layer->onUpdate(this->deltaTime);
     }
     ImGui::Render();

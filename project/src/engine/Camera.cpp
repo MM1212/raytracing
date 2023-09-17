@@ -1,5 +1,6 @@
 #include "engine/Camera.hpp"
 #include <engine/engine.hpp>
+#include <iostream>
 
 using Engine::Camera;
 
@@ -13,17 +14,6 @@ Camera::Camera(
 ) : settings(settings), position(position), direction(direction) {}
 
 void Camera::onUpdate(float deltaTime) {
-  glm::vec2 mousePos = Engine::Input::GetMousePosition();
-  glm::vec2 mouseDelta = (mousePos - this->lastMousePos) * 0.002f;
-  this->lastMousePos = mousePos;
-
-  if (Input::IsMouseButtonDown(Input::MouseButton::Right)) {
-    Input::SetCursorMode(Input::CursorMode::Normal);
-    return;
-  }
-
-  Input::SetCursorMode(Input::CursorMode::Locked);
-
   bool moved = false;
 
   glm::vec3 rightDirection = glm::cross(this->direction, upDirection);
@@ -53,21 +43,34 @@ void Camera::onUpdate(float deltaTime) {
     moved = true;
   }
 
-  if (mouseDelta.x != 0.0f || mouseDelta.y != 0.0f) {
-    float pitchDelta = mouseDelta.y * this->getRotationSpeed();
-    float yawDelta = mouseDelta.x * this->getRotationSpeed();
+  glm::vec2 mousePos = Engine::Input::GetMousePosition();
+  glm::vec2 mouseDelta = (mousePos - this->lastMousePos) * 0.002f;
+  this->lastMousePos = mousePos;
 
-    glm::quat quaternion = glm::normalize(
-      glm::cross(
-        glm::angleAxis(-pitchDelta, rightDirection),
-        glm::angleAxis(-yawDelta, upDirection)
-      )
-    );
-    this->direction = glm::rotate(quaternion, this->direction);
-    moved = true;
+  if (!Input::IsMouseButtonDown(Input::MouseButton::Right)) {
+    Input::SetCursorMode(Input::CursorMode::Normal);
   }
+  else {
+    Input::SetCursorMode(Input::CursorMode::Locked);
+
+    if (mouseDelta.x != 0.0f || mouseDelta.y != 0.0f) {
+      float pitchDelta = mouseDelta.y * this->getRotationSpeed();
+      float yawDelta = mouseDelta.x * this->getRotationSpeed();
+
+      glm::quat quaternion = glm::normalize(
+        glm::cross(
+          glm::angleAxis(-pitchDelta, rightDirection),
+          glm::angleAxis(-yawDelta, upDirection)
+        )
+      );
+      this->direction = glm::rotate(quaternion, this->direction);
+      moved = true;
+    }
+  }
+
   if (!moved)
     return;
+  std::cout << "Moved" << std::endl;
   this->recalculateView();
   this->recalculateRayDirections();
 }

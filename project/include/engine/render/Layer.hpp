@@ -8,15 +8,15 @@ namespace Engine {
 
   class Layer {
   public:
-    virtual void onAttach(const Window& win) {}
-    virtual void onDetach() {}
-    virtual void onUpdate(float deltaTime) {}
-    virtual void onRender() {}
-    virtual void onResize(glm::uvec2 size) {}
-    virtual ~Layer() {}
-    Layer() {}
-    Layer(uint32_t idx) {}
-    Layer(uint32_t idx, int priority) {}
+    virtual void onAttach(const Window&) = 0;
+    virtual void onDetach() = 0;
+    virtual void onUpdate(float) = 0;
+    virtual void onRender() = 0;
+    virtual void onResize(glm::uvec2) = 0;
+    virtual ~Layer() = default;
+    Layer() = default;
+    Layer(uint32_t idx) : id(idx) {}
+    Layer(uint32_t idx, int priority) : id(idx), priority(priority) {}
   private:
     uint32_t id = -1;
     int priority = -1;

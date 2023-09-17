@@ -20,9 +20,9 @@ namespace Engine {
     auto& getEntities() { return this->entities; }
     entt::registry& getRegistry() { return this->registry; };
     const entt::registry& getRegistry() const { return this->registry; };
+    const Camera& getViewportCamera() const { return this->viewportCam; }
 
     void onUpdate(float deltaTime);
-    void submitToRender();
     void onResize(glm::uvec2 size);
 
     Entity newEntity(const std::string_view tag);
@@ -38,7 +38,7 @@ namespace Engine {
   private:
     entt::registry registry;
     std::unordered_map<UUID, entt::entity> entities;
-    Camera viewportCam;
+    Camera viewportCam = Camera();
     friend class Entity;
   };
 }

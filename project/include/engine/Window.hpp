@@ -13,9 +13,9 @@
 namespace Engine {
   class Window {
   public:
+    Window() = default;
     Window(glm::ivec2 size, std::string_view title, bool vSync = true);
     ~Window();
-    Window() = default;
 
     inline bool initialized() const { return this->window != nullptr; }
     inline bool isRunning() const { return this->running; }
@@ -31,7 +31,9 @@ namespace Engine {
     bool init(glm::ivec2 size, std::string_view title, bool vSync = true);
     void run();
     bool destroy();
+    void onResize(int width, int height);
   private:
+
     GLFWwindow* window = nullptr;
     glm::ivec2 size;
     std::vector<std::shared_ptr<Layer>> layers;

@@ -6,7 +6,7 @@
 
 using Engine::Layers::DemoLayer;
 
-void DemoLayer::onAttach() {
+void DemoLayer::onAttach(const Window&) {
   std::cout << "DemoLayer attached" << std::endl;
 }
 
@@ -14,7 +14,7 @@ void DemoLayer::onDetach() {
   std::cout << "DemoLayer detached" << std::endl;
 }
 
-void DemoLayer::onUpdate() {
+void DemoLayer::onUpdate(float) {
   // Our state
   static bool show_demo_window = true;
   static bool show_another_window = false;
@@ -62,4 +62,8 @@ void DemoLayer::onUpdate() {
 void DemoLayer::onRender() {
   glClearColor(this->clear_color.r, this->clear_color.g, this->clear_color.b, this->clear_color.a);
   glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void DemoLayer::onResize(glm::uvec2 size) {
+  glViewport(0, 0, size.x, size.y);
 }

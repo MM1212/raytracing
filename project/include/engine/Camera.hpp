@@ -37,6 +37,9 @@ namespace Engine {
     const glm::vec3& getDirection() const { return this->direction; };
 
     const std::vector<glm::vec3>& getCachedRayDirections() const { return this->cachedRayDirections; };
+    const glm::vec3& getCachedRayDirection(uint32_t index) const { return this->cachedRayDirections[index]; };
+    const glm::vec3& getCachedRayDirection(uint32_t x, uint32_t y) const { return this->cachedRayDirections[x + y * this->viewport.x]; };
+
 
     const Settings& getSettings() const { return this->settings; };
     const glm::uvec2& getViewport() const { return this->viewport; };
@@ -48,19 +51,19 @@ namespace Engine {
     void recalculateView();
     void recalculateRayDirections();
   private:
-    glm::mat4 projection{ 1.0f };
-    glm::mat4 view{ 1.0f };
-    glm::mat4 inverseView{ 1.0f };
-    glm::mat4 inverseProjection{ 1.0f };
+    glm::mat4 projection = glm::mat4{ 1.0f };
+    glm::mat4 view = glm::mat4{ 1.0f };
+    glm::mat4 inverseView = glm::mat4{ 1.0f };
+    glm::mat4 inverseProjection = glm::mat4{ 1.0f };
 
-    Settings settings;
+    Settings settings = Settings{};
 
-    glm::vec3 position{ 0.0f };
-    glm::vec3 direction{ 0.0f };
+    glm::vec3 position = glm::vec3{ 0.0f };
+    glm::vec3 direction = glm::vec3{ 0.0f };
 
-    std::vector<glm::vec3> cachedRayDirections;
+    std::vector<glm::vec3> cachedRayDirections = std::vector<glm::vec3>();
 
-    glm::uvec2 viewport{ 0 };
-    glm::vec2 lastMousePos{ 0.0f };
+    glm::uvec2 viewport = glm::uvec2{ 0 };
+    glm::vec2 lastMousePos = glm::vec2{ 0.0f };
   };
 }

@@ -11,10 +11,11 @@ namespace Engine {
     public:
       DemoLayer(uint32_t idx) : Layer(idx) {};
       ~DemoLayer() = default;
-      void onAttach();
+      void onAttach(const Window& win);
       void onDetach();
-      void onUpdate();
+      void onUpdate(float deltaTime);
       void onRender();
+      void onResize(glm::uvec2 size);
     };
   }
 }

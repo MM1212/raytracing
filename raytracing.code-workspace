@@ -69,6 +69,17 @@
       "shared_mutex": "cpp",
       "stop_token": "cpp"
     },
-    "C_Cpp.formatting": "vcFormat"
+    "C_Cpp.formatting": "vcFormat",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/*.o": true,
+      "**/*.d": true,
+      "vendor/**/*": true
+    }
   }
 }

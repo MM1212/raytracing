@@ -8,7 +8,8 @@ project "RayTracing"
   targetdir "bin/%{cfg.buildcfg}"
   staticruntime "off"
   stl "libc++"
-  toolset "clang"
+  buildoptions { "-Wall", "-Wextra", "-Werror" }
+  -- toolset "clang"
 
   files {
     imgui "backends/imgui_impl_glfw.h",

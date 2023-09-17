@@ -1,10 +1,11 @@
 #include "engine/input/Input.hpp"
 #include <engine/engine.hpp>
+#include <Application.hpp>
 
 using namespace Engine;
 
 static GLFWwindow* getWindow() {
-  return Instance<Engine::Window>::Get()->getWindow();
+  return Instance<RayTracing::Application>::Get()->getWindow()->getWindow();
 }
 
 bool Input::IsKeyDown(KeyCode keycode) {
@@ -21,7 +22,7 @@ bool Input::IsMouseButtonDown(MouseButton button) {
 
 glm::vec2 Input::GetMousePosition() {
   auto window = getWindow();
-  double xpos, ypos;
+  double xpos, ypos = 0.0;
   glfwGetCursorPos(window, &xpos, &ypos);
   return { xpos, ypos };
 }
